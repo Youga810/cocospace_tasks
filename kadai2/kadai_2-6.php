@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>kadai_2-6</title>
+
+  <!--　削除時の確認ダイアログ　-->
+  <script type="text/javascript"> 
+    function check(){
+      if(window.confirm('本当に削除しますか？')){
+        return true;
+      }else{
+        window.alert('キャンセルされました'); 
+        return false; 
+      }
+    }
+  </script>
+
 </head>
 <body>
 
@@ -140,7 +153,7 @@
     </dl>
   </form>
 --------------------------------------------------------------------------
-  <form action="./kadai_2-6.php" method="post">
+  <form action="./kadai_2-6.php" method="post" onSubmit="return check()">
     <dl>
       <p>
         <dt>削除番号：</dt>
@@ -154,7 +167,6 @@
         <dd><input type="password" size="30" name="delete_password" placeholder="ここにパスワードを入力してください。"></dd>
         <input type="submit" value="削除">
       </p>
-
     </dl>
   </form>
 --------------------------------------------------------------------------
@@ -181,10 +193,16 @@
   #記述処理
   if(file_exists($filename)){
     $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach($lines as $value){
-      list($num, $name1, $comment1, $time) = explode("<>", $value);
-      echo $num."番  ".$name1."さん  ".$comment1."  ".$time."<br>"; 
+    if(empty($lines)) echo "投稿がありません。";
+    else{
+      foreach($lines as $value){
+        list($num, $name1, $comment1, $time) = explode("<>", $value);
+        echo $num."番  ".$name1."さん  ".$comment1."  ".$time."<br>"; 
+      }
     }
+    
+  }else{
+    echo "投稿がありません。";
   }
   
   
