@@ -81,7 +81,10 @@
                 }
                 else continue;
               }
-              else fwrite($fp,$num."<>".$name1."<>".$comment1."<>".$time."<>".$password1."\n");
+              elseif($num > $delete_ID){
+                $num--;
+              }
+               fwrite($fp,$num."<>".$name1."<>".$comment1."<>".$time."<>".$password1."\n");
             }
             fclose($fp);
           }
