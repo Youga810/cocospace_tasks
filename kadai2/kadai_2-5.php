@@ -58,7 +58,10 @@
             if($num == $delete_ID){
               continue;
             }
-            else fwrite($fp,$num."<>".$name1."<>".$comment1."<>".$time."\n");
+            elseif($num > $delete_ID){
+              $num--;
+            }
+            fwrite($fp,$num."<>".$name1."<>".$comment1."<>".$time."\n");
           }
           fclose($fp);
         }
