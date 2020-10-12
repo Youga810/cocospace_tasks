@@ -19,7 +19,8 @@
 
 </head>
 <body>
-<h1>掲示板</h1>
+<h1 style="display:inline;">掲示板</h1> 
+<h2><a href="">ログアウト</a></h2>
 <?php
 #cユーザ情報の取得(無ければログイン画面へ)
 if(isset($_COOKIE['myId'])){
