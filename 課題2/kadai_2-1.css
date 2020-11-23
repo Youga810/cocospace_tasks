@@ -1,0 +1,10 @@
+
+form dl dt{
+  width: 165px;
+  padding:10px 0;
+  float:left;
+  clear:both;
+}
+form dl dd{
+  padding:10px 0;
+}

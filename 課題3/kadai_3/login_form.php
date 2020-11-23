@@ -10,12 +10,23 @@
 <body>
 
 <?php
+#echo $_SESSION['myId'];
+  echo session_id();
+  if(isset($_COOKIE['PHPSESSID'])){
+    header('Location: ./notice-board.php');
+  }
+
   if(isset($_POST['login_id'])){
   $id = $_POST['login_id'];
   }else{
     $id = "";
   }
+
+
+
 ?>
+
+
   <h1>ーログインー</h1>
   未登録の方は<a href="user_register.php">こちら</a> <br><br>
   <form action="./user_login.php" method="post">
