@@ -94,5 +94,33 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <br><br>
 
+{if isset($view)}
+{foreach $view as $value}
+
+    <table border="1">
+      <thead>
+        <tr>
+          <td>
+            <?php
+            {$value['id']} 番
+            {$value['name']}さん
+            {$value['comment']}
+            {$value['time']}
+
+            {if $value['ext'] == 'mp4'}
+              <video controls src= "{$value['path']}"width="400" >
+            }
+            {/if}
+            <img src= "{$value['path']}"width="400" >
+            <br>
+          </td>
+        </tr>
+      </thead>
+    </table>
+{/foreach}
+{else}
+  投稿がありません。
+{/if}
+
 </body>
 </html>

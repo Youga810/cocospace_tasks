@@ -45,13 +45,13 @@ include('pdo_connect.php');
   }
 
 #テーブル作成
-$stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT,comment TEXT,time TEXT, password TEXT,path TEXT,ext TEXT)");
+$stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT,comment TEXT,time TEXT, password TEXT,path TEXT,ext TEXT)");
 #debug用
 
 #$sql = "DELETE FROM B" ;
 #$dbh->query($sql);
 
-#$sql = "DROP TABLE C" ;
+#$sql = "DROP TABLE D" ;
 #$dbh->query($sql);
   #投稿処理
   if(!empty($_POST['name'])){
@@ -87,7 +87,7 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
       $filename = sha1_file($tmp_name);
       $ext = array_search($mimetype, $allowed_types);
       $destination = sprintf('%s/%s.%s'
-      , 'filesA'
+      , 'files'
       , $filename
       , $ext
       );
@@ -96,10 +96,10 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
 
     if(empty($password))echo "<script>alert('パスワードを入力してください。');</script>";
     else{
-      $res = $dbh-> query('SELECT * FROM C');
+      $res = $dbh-> query('SELECT * FROM D');
       #編集時
       if($id != -1){
-        $sql = 'UPDATE C set name = :name,comment = :comment, time = :time, password = :password, path= :path, ext = :ext where id = :id';
+        $sql = 'UPDATE D set name = :name,comment = :comment, time = :time, password = :password, path= :path, ext = :ext where id = :id';
         $stmt = $dbh->prepare($sql);
         $params = array(':name' =>$name,':comment' =>$comment,':time' => date('Y年m月d日 H時i分s秒'),':password' => $password,'path' => $destination, 'ext' =>$ext, 'id' => $id);
         $stmt ->execute($params);
@@ -114,12 +114,12 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
       #通常投稿時
       }else{
         #lastInsertIDがうまく記述できなかったため
-        $res = $dbh-> query('SELECT * FROM C');
+        $res = $dbh-> query('SELECT * FROM D');
         foreach( $res as $value ) {
           $new_id = $value['id']  ;
         }
         $new_id++;
-        $sql = $dbh->prepare("INSERT INTO C (id,name,comment,time,password,path,ext) VALUES (:id,:name,:comment,:time,:password,:path,:ext)");
+        $sql = $dbh->prepare("INSERT INTO D (id,name,comment,time,password,path,ext) VALUES (:id,:name,:comment,:time,:password,:path,:ext)");
         $sql->bindValue(':id',$new_id,PDO::PARAM_INT);
         $sql->bindValue(':name',$name,PDO::PARAM_STR);
         $sql->bindValue(':comment',$comment,PDO::PARAM_STR);
@@ -127,6 +127,7 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
         $sql->bindValue(':password',$password,PDO::PARAM_STR);
         $sql->bindValue(':path',$destination,PDO::PARAM_STR);
         $sql->bindValue(':ext',$ext,PDO::PARAM_STR);
+        echo $sql;
         $sql->execute();
       }
      # #リロードによる二重投稿対策
@@ -141,9 +142,9 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
   if(!empty($_POST['delete'])){
     $delete_ID = $_POST['delete'];
     if(is_numeric($delete_ID)){
-      $res = $dbh-> query('SELECT * FROM C');
+      $res = $dbh-> query('SELECT * FROM D');
       $cnt = $res->rowCount();
-      $sql = "SELECT * FROM C where id = $delete_ID";
+      $sql = "SELECT * FROM D where id = $delete_ID";
       $stmt = $dbh->query($sql);
       foreach($stmt as $row){
         $delete_password =  $row['password'];
@@ -157,14 +158,14 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
                 echo "<script>alert('パスワードが間違っています。');</script>";
               }
               else{
-                $sql = "DELETE FROM C where id = $delete_ID" ;
+                $sql = "DELETE FROM D where id = $delete_ID" ;
                 $stmt = $dbh->query($sql);
                 
-                $sql = "ALTER table C drop column id"; //idそのものを消す
+                $sql = "ALTER table D drop column id"; //idそのものを消す
                 $stmt = $dbh->query($sql);
-                $sql = "ALTER table C add id int(11) primary key not null auto_increment first"; //AUTO_INCREMENTは主キーかつNULLでないことが条件
+                $sql = "ALTER table D add id int(11) primary key not null auto_increment first"; //AUTO_INCREMENTは主キーかつNULLでないことが条件
                 $stmt = $dbh->query($sql);
-                $sql = "ALTER TABLE C AUTO_INCREMENT =1"; //idを1から振りなおす
+                $sql = "ALTER TABLE D AUTO_INCREMENT =1"; //idを1から振りなおす
                 $stmt = $dbh->query($sql);
               }   
           }
@@ -183,9 +184,9 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
   if(!empty($_POST['edit'])){
     $edit_ID = $_POST['edit'];
     if(is_numeric($edit_ID)){
-      $res = $dbh-> query('SELECT * FROM C');
+      $res = $dbh-> query('SELECT * FROM D');
       $cnt = $res->rowCount();
-      $sql = "SELECT * FROM C where id = $edit_ID";
+      $sql = "SELECT * FROM D where id = $edit_ID";
       $stmt = $dbh->query($sql);
       foreach($stmt as $row){
         $edit_password =  $row['password'];
@@ -195,7 +196,7 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
         $password = $_POST['edit_password'];
         if(empty($password)) echo "<script>alert('パスワードを入力してください');</script>";
         else{
-            $sql = "SELECT * FROM C where id = $edit_ID";
+            $sql = "SELECT * FROM D where id = $edit_ID";
             $stmt = $dbh->query($sql);
             foreach($stmt as $row){
               $edit_password =  $row['password'];
@@ -216,45 +217,14 @@ $stmt = $dbh->query("CREATE TABLE C (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
   }
   
   #記述処理
-  $sql = 'SELECT *FROM C';
+  $sql = 'SELECT *FROM D';
   $stmt = $dbh->query($sql);
   $stmt-> execute();
   $cnt = $stmt->rowCount();
   if($cnt != 0){
-    $res = $dbh-> query('SELECT * FROM C');
-
-          foreach($res as $value){
-                ?>
-    <table border="1">
-      <thead>
-        <tr>
-          <td>
-            <?php
-            echo "$value[id]"."番 ";
-            echo "$value[name]"."さん ";
-            echo "$value[comment]";
-            echo "$value[time]";
-
-            if($value['ext'] == 'mp4'){
-              ?>
-              <video controls src= "<?= $value['path']?> "width="400" >
-              <?php
-            }
-            ?>
-
-            <img src= "<?= $value['path']?> "width="400" >
-            <?php echo '<br>';
-            ?>
-          </td>
-        </tr>
-      </thead>
-    </table>
-    <?php
-      }
-  }else{
-    echo '投稿がありません。';
+    $res = $dbh-> query('SELECT * FROM D');
+    $smarty->assign('view', $res);
   }
-  
   $smarty->assign('session', $_SESSION);
   $smarty->assign('user_name', $user_name);
   $smarty->assign('edit_comment1', $edit_comment1);
