@@ -101,7 +101,6 @@
       <thead>
         <tr>
           <td>
-            <?php
             {$value['id']} 番
             {$value['name']}さん
             {$value['comment']}
@@ -109,9 +108,9 @@
 
             {if $value['ext'] == 'mp4'}
               <video controls src= "{$value['path']}"width="400" >
-            }
-            {/if}
+            {else}
             <img src= "{$value['path']}"width="400" >
+            {/if}
             <br>
           </td>
         </tr>

@@ -127,7 +127,6 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
         $sql->bindValue(':password',$password,PDO::PARAM_STR);
         $sql->bindValue(':path',$destination,PDO::PARAM_STR);
         $sql->bindValue(':ext',$ext,PDO::PARAM_STR);
-        echo $sql;
         $sql->execute();
       }
      # #リロードによる二重投稿対策
@@ -228,9 +227,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
   $smarty->assign('session', $_SESSION);
   $smarty->assign('user_name', $user_name);
   $smarty->assign('edit_comment1', $edit_comment1);
-  $smarty->assign('id', $_GET['param']);
-  $smarty->assign('id', $_GET['param']);
-
+  $smarty->assign('edit_ID', $edit_ID);
   $smarty->display('notice-board.tpl');
 
 
