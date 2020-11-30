@@ -12,7 +12,7 @@
         $comment = 'ログアウトしました。';
     }
     $_SESSION = array();
-    setcookie("PHPSESSID", '', time() - 1800);
+    setcookie("PHPSESSID", '', time() - 1800,'/');
   }
   session_destroy();
   $smarty->assign('comment', $comment);
