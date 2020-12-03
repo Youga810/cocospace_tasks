@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-     <meta charset="utf-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <title>user_login</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>user_login</title>
+  <link rel="stylesheet" href="./css/common.css">
+
 </head>
 <body>
 
