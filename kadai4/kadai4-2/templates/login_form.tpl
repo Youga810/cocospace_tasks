@@ -10,16 +10,15 @@
 </head>
 <body>
 <div class="wrap"> 
-  <h1 class="login">ーログインー</h1>
-  <div class="login">
-    未登録の方は<a href="./user_register.php" >こちら</a>
+  <h1 class="login">Login</h1>
+    <form action="./user_login.php" method="post">
+      <input type="text" name="id" value="{$id}" placeholder="Id">
+      <input type="password" name="password" placeholder="Password">
+      <input class="login-btn" type="submit" value="Login">
+    </form>
+  <div class="signup">
+    Not a member? <a class="signup-link" href="./user_register.php" >Register now</a>
   </div>
-   <br><br>
-  <form action="./user_login.php" method="post">
-    ID：<input type="text" name="id" value="{$id}" placeholder="ID"><br>
-    パスワード：<input type="password" name="password" placeholder="パスワード">
-    <input type="submit" value="ログイン">
-  </form>
 </div>
 </body>
 </html>

@@ -5,24 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>kadai_3_1</title>
   <link rel="stylesheet" href="./css/common.css">
-
+  <link rel="stylesheet" href="./css/user_register.css">
 </head>
 <body>
 
-
-  <h1>ーユーザー登録フォームー</h1>
+<div class="wrap">
+  <h1 class="register">Register</h1>
   <form action="./user_confirm.php" method="post">
-  お名前：
-  <input type="text" size="30" name="name" placeholder="鈴木太郎" value="{$name}"><br>
-  パスワード
-  <input type="password" size="30" name="password" placeholder="password" value="{$password}"><br>
-  メールアドレス
-  <input type="email" size="30" name="address" placeholder="abc@example.jp" value="{$address}">
-  <input type="submit" value="確認">
-</form>
+    <input type="text" size="30" name="name" placeholder="UserName" value="{$name}">
+    <input type="password" size="30" name="password" placeholder="Password" value="{$password}">
+    <input type="email" size="30" name="address" placeholder="Email" value="{$address}">
+    <input type="submit" value="Confirm">
+  </form>
 
-<p>登録済みの方は<a href="./login_form.php">こちら</a></p>
+  <div class="login">Already have an account? <a class="login-link" href="./login_form.php">Login now</a></div>
+</div>
 <br><br>
+<!--
 --------------------------------＜以下デバッグ用＞---------------------------------------
 <br>
 <br>
@@ -57,7 +56,7 @@
       登録しているユーザーはいません。
     {/if}
 
-
+-->
 
 </body>
 </html>

@@ -11,7 +11,7 @@
     $register_address = $_POST['address'];
   }
   if((empty($register_name) || empty($register_password) || empty($register_address)) && empty($_POST['register_name'])){
-    echo "入力漏れがあります";
+
     $register_name = "";
     $register_password = "";
     $register_address = "";

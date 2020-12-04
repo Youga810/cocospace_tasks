@@ -11,7 +11,7 @@
   border: 2px solid #252530;
 }
 
-.login{
+.register{
   margin-top: 40px;
   text-align: center;
   display: flex;
@@ -19,42 +19,54 @@
 }
 
 /*ログイン横線*/
-.login:before,
-.login:after {
+.register:before,
+.register:after {
 border-top: 1px solid;
 content: "";
 flex-grow: 1;
 }
 /*横線と文字の空間*/
-.login:before {
+.register:before {
   margin-right: 2rem;
   }
-  .login:after {
+  .register:after {
   margin-left: 2rem;
   }
 
+  form{
+    position: relative;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+  }
 
-form{
-  position: relative;
-	width: 80%;
-  margin: 10%;
-  text-align: center;
-}
   form input[type='text'] {
     font: 15px/24px sans-serif;
     box-sizing: border-box;
     width: 100%;
     padding: 1em;
     transition: 0.3s;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     letter-spacing: 1px;
     color: #1b1515;
     border: none;
     border-bottom: 2px solid #1b2538;
     background: transparent;
   }
-
   form input[type='password'] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1em;
+    transition: 0.3s;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    color: #1b1515;
+    border: none;
+    border-bottom: 2px solid #1b2538;
+    background: transparent;
+  }
+  form input[type='email'] {
     box-sizing: border-box;
     width: 100%;
     padding: 1em;
@@ -65,12 +77,13 @@ form{
     border-bottom: 2px solid #1b2538;
     background: transparent;
   }
-  form input[type='text']:focus,form input[type='password']:focus {
+
+  form input[type='text']:focus,form input[type='password']:focus,form input[type='email']:focus {
     border-bottom: 4px solid  #1b2538;
     outline: none;
   }
   form input[type='submit']{
-    margin-top: 50px;
+    margin-top: 40px;
     background-color: #000;
     color: #fff;
     border-style: none;
@@ -79,13 +92,15 @@ form{
     height: 50px;
     transition: background-color .5s;
   }
+
   form input[type='submit']:hover{
     background-color: #777;
   }
-  .signup{
+  .login{
     text-align: center;
+    margin-top: 20px;
   }
-  .signup-link{
+  .login-link{
     text-decoration: none;
 
   }
