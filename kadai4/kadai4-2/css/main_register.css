@@ -8,3 +8,58 @@
   align-items: center;
 }
 
+.error, .complete{
+	text-align: center;
+	align-items: center;
+}
+form{
+  display: flex;
+  justify-content: center;
+}
+
+input{
+  border: none;
+  border-radius: 5px;
+}
+
+input.back_login{
+  width: 300px;
+  height: 100px;
+  font-size: large;
+  margin-top: 40px;
+  transition: background-color .5s;
+}
+
+form input[type='submit']:hover{
+  background-color: #777;
+  color: #fff;
+}
+
+.error1, .error2{
+	font-size: xx-large;
+	color: #f00;
+}
+
+table{
+  width: 350px;
+	height: 200px;
+	margin-top: 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td.header{
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+  width: 175px;
+}
+td.data{
+  width: 175px;
+  font-size: large;
+}
+
+table,td,tr{
+  border: 1px #808080 solid;
+  border-collapse: collapse
+}

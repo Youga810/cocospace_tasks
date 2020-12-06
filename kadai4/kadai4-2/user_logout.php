@@ -7,9 +7,9 @@
 
   if(session_id()) { 
     if(isset($_SESSION['timeout'])&& $_SESSION['timeout']){
-      $comment = 'セッションがタイムアウトしました。';
+      $comment = 'Session has timed out.';
     }else{
-        $comment = 'ログアウトしました。';
+        $comment = 'Logged out.';
     }
     $_SESSION = array();
     setcookie("PHPSESSID", '', time() - 1800,'/');

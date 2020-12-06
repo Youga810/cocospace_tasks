@@ -11,20 +11,34 @@
 <body>
 <div class="wrap">
   {if isset($error)}
-  <h1 class="error"> {$error} </h1>
-  <form action="./user_register" method="get">
-    <input type="submit" class="back_register" value="Back To Register">
-  </form>
+
+      <form action="./login_form" method="post">
+       <div class="error">   
+      {if $error == 1}
+        <h1 class="error1"> Wrong Parameters </h1>
+      {elseif $error == 2}
+        <h2> id: <span class="error2">{$id} </span> is already registered.</h2>
+        <input type="hidden" name="login_id" value="{$id}">
+      {/if}
+        <input type="submit" class="back_login" value="Back To Login">
+        </div>    
+      </form>
 
   {else}
-      認証が完了しました。<br>
-      以下のidとpasswordは大切に保管してください。<br><br>
-      id:{$id}<br>
-      password:{$password}<br>
+    <div class="complete">
+      Certification has been completed.<br>
+      Please keep the following id and password.
+
+      <table>
+        <tr><td class="header">Id</td><td class="data">{$id}</td></tr>
+        <tr><td class="header">Password</td><td class="data">{$password}</td></tr>
+      </table>
+
       <form action="login_form.php" method="post">
         <input type="hidden" name="login_id" value="{$id}">
-        <input type="submit" value="ログインフォームへ">
+        <input class="back_login" type="submit" value="To Login">
       </form>
+    </div>
   {/if}
 </div>
 </body>

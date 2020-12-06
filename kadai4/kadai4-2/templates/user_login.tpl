@@ -11,7 +11,7 @@
 <div class="wrap">
   {if isset($error)}
     <h1 class="error-txt"> {$error} </h1>
-    <div class="error">
+    <div>
       <form action="./login_form" method="post">
         <input type="hidden" name="login_id" value="{$id}">
         <input class="back_login" type="submit" value="Back To Login">
@@ -19,10 +19,12 @@
     </div>
   {else}
     <h1 class="success"> Login successed. </h1>
-    <form action="./notice-board" method="post">
-      <input type="hidden" name="login_id" value="{$id}">
-      <input class="to_board" type="submit" value="To Notice-Board">
-    </form>
+    <div>
+      <form action="./notice-board" method="post">
+        <input type="hidden" name="login_id" value="{$id}">
+        <input class="to_board" type="submit" value="To Notice-Board">
+      </form>
+    </div>
   {/if}
 </div>
 </body>

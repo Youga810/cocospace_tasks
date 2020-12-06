@@ -11,6 +11,7 @@ table{
   position: relative;
   width: 700px;
   height: 400px;
+  text-align:center;
 }
 
 table,td,tr{

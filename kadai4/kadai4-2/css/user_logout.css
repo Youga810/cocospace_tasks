@@ -8,13 +8,13 @@
   align-items: center;
 }
 
-.error-txt{
-  color:#ff0000;
+.logout_msg{
   text-align: center;
 }
 
-div{
-  text-align: center;
+form{
+  display: flex;
+  justify-content: center;
 }
 
 input{
@@ -22,7 +22,7 @@ input{
   border-radius: 5px;
 }
 
-input.back_login{
+input.login_form{
   width: 300px;
   height: 100px;
   font-size: large;
@@ -30,18 +30,7 @@ input.back_login{
   transition: background-color .5s;
 }
 
-input.back_login:hover{
+form input[type='submit']:hover{
   background-color: #777;
-  color: #fff;
-}
-h1.success{
-  text-align: center;
-}
-input.to_board{
-  width: 300px;
-  height: 100px;
-  font-size: large;
-  margin-top: 40px;
-  background-color:#3C8DBC;
   color: #fff;
 }

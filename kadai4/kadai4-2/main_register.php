@@ -15,7 +15,10 @@
       $sth -> bindParam(1, $_GET['param'],PDO::PARAM_STR);
       $sth ->execute(); 
       $result = $sth ->fetchAll(PDO::FETCH_ASSOC);
-      if(!$result) throw new Exception('パラメータが正しくありません');
+      if(!$result){
+        $eflag = 1;
+        throw new Exception($eflag);
+      } 
     
     #本登録のflag = 1 にする
     foreach($result as $value){
@@ -25,7 +28,8 @@
         $params = array(':flag'=> 1, 'id' => $_GET['param']);
         $stmt -> execute($params);
       }else{
-        throw new Exception('id:'.$_GET['param'].' は既に登録済みです');
+        $eflag = 2;
+        throw new Exception($eflag);
       }
     }
 
