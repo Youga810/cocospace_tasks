@@ -5,7 +5,7 @@
   Smarty_Autoloader::register();
   $smarty = new Smarty();
 
-
+  error_reporting(E_ALL & ~E_NOTICE);
   
 try{
   $id_flag = false;
@@ -27,7 +27,8 @@ try{
           if($login_password == $value['password']){
             $password_flag = true;
             if($value['flag'] == 0){
-              throw new Exception('仮登録状態です。メールを確認して本登録を完了させて下さい。');
+              throw new Exception("In the state of 'Temporary registration'.<br>
+              Please check an email.");
               exit();
             }
             break;
@@ -35,7 +36,7 @@ try{
         }
       }
   }
-}else{
+}elseif(isset($_SESSION)){
     header('Location: ./notice-board.php');
 }
 
@@ -48,10 +49,10 @@ try{
     $_SESSION['last_time'] = time();
   }
   if($id_flag && !$password_flag){
-    throw new Exception('パスワードが間違っています。');
+    throw new Exception('Wrong Password');
   }
   if(!$id_flag){
-    throw new Exception('IDがありません。');
+    throw new Exception('No Id');
   }
 }catch(Exception $e){
   $smarty->assign('error', $e -> getMessage());

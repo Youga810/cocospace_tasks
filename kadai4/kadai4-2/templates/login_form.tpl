@@ -11,13 +11,13 @@
 <body>
 <div class="wrap"> 
   <h1 class="login">Login</h1>
-    <form action="./user_login.php" method="post">
+    <form action="./user_login" method="post">
       <input type="text" name="id" value="{$id}" placeholder="Id">
       <input type="password" name="password" placeholder="Password">
       <input class="login-btn" type="submit" value="Login">
     </form>
   <div class="signup">
-    Not a member? <a class="signup-link" href="./user_register.php" >Register now</a>
+    Not a member? <a class="signup-link" href="./user_register" >Register now</a>
   </div>
 </div>
 </body>

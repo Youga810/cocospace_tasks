@@ -3,7 +3,9 @@
   // smartyの設定ファイル読み込み
   require_once(realpath(__DIR__) . "/../smarty/Autoloader.php");
   Smarty_Autoloader::register();
+  $smarty = new Smarty();
   include('./pdo_connect.php');
+  error_reporting(E_ALL & ~E_NOTICE);
 
   if(!empty($_POST['name']) || !empty($_POST['password']) || !empty($_POST['address']) ){
     $register_name = $_POST['name'];
@@ -15,6 +17,7 @@
     $register_name = "";
     $register_password = "";
     $register_address = "";
+    $smarty->assign('error','Some items missing.');
   }
 
     #ユーザ情報の登録・仮登録メールの送信
@@ -30,9 +33,12 @@
       if($result) {
         foreach($result as $value){
           if($value['flag']){
-            echo '既に本登録済みです。';
+            $smarty->assign('error',"Already a member.");
+            $smarty->display('user_confirm.tpl');
           }else{
-            echo '現在仮登録状態です。メールをご確認ください。';
+            $smarty->assign('error',"In the state of 'Temporary registration'.<br>
+            Please check an email.");
+            $smarty->display('user_confirm.tpl');
           }
         }
         exit();
@@ -50,16 +56,14 @@
       $sql->bindValue(':address',$_POST['register_address'],PDO::PARAM_STR);
       $sql->bindValue(':flag',0,PDO::PARAM_INT);
       $sql->execute();
-      $url = "http://co-19-265.99sv-coco.com/kadai4/main_register.php?param=".$id;
-      $subject ='仮登録認証確認メール';
-      $body =  ' 
-      こんにちは'.$_POST['register_name'].'さん。
-      以下のURLで認証を行ってください。
-      '.$url;
-      echo '以下のメールアドレスに認証URLを送信しました。<br>'
-            .$_POST['register_address'].'<br><br>'.
-            'クリックすると認証が完了します。';
-
+      $url = "http://co-19-265.99sv-coco.com/kadai4/kadai4-2/main_register.php?param=".$id;
+      $subject ='Account verification email';
+      $body =  <<< EOM
+Hey {$_POST['register_name']}!
+Please click the following URL to complete the authentication.
+{$url}
+EOM;
+      $smarty->assign('tmpmsg',$_POST['register_address']);
       mb_send_mail($_POST['register_address'], $subject, $body);
       //URL送信後ユーザ確認を表示させないための初期化
       $register_name = "";
@@ -96,7 +100,7 @@
         return substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, $length);
     }
 
-    $smarty = new Smarty();
+
     $smarty->assign('register_name', $register_name);
     $smarty->assign('register_password', $register_password);
     $smarty->assign('register_address', $register_address);

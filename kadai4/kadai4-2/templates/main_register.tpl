@@ -11,7 +11,9 @@
 {if isset($error)}
 <span style="color:#ff0000;">
   {$error} <br>
-  <a href="user_register.php">ユーザ登録フォームへ</a>
+  <form action="./user_register" method="get">
+    <input type="submit" class="back_register" value="Back To Register">
+  </form>
 </span>
 
 {else}

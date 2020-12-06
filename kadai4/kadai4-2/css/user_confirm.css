@@ -11,7 +11,6 @@ table{
   position: relative;
   width: 700px;
   height: 400px;
-  margin-left: 50px;
 }
 
 table,td,tr{
@@ -21,8 +20,68 @@ table,td,tr{
 td.header{
   text-align: center;
   font-weight: bold;
-  font-size: large;
+  font-size: x-large;
+  
 }
 td.data{
   text-indent: 30pt;
+  font-size: x-large;
+}
+.btn {
+  display:flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+}
+input{
+  border: none;
+  border-radius: 5px;
+}
+input.back{
+  margin-right: 20px;
+  width: 120px;
+  height: 50px;
+}
+input.register{
+  background-color:#3C8DBC;
+  color: #fff;
+  width: 120px;
+  height: 50px;
+}
+.emsg{
+  text-align: center;
+  color: red;
+}
+input.back_register{
+  width: 300px;
+  height: 100px;
+  font-size: large;
+  transition: background-color .5s;
+}
+input.back_login{
+  width: 300px;
+  height: 100px;
+  font-size: large;
+  transition: background-color .5s;
+}
+
+input.back_login:hover{
+  background-color: #777;
+  color: #fff;
+}
+
+input.back_register:hover{
+  background-color: #777;
+  color: #fff;
+}
+.error{
+  display:flex;
+  justify-content: space-evenly;
+  margin-top: 40px;
+}
+
+.msg{
+  text-align: center;
+}
+p.tmpmsg{
+  font-size: x-large;
 }
