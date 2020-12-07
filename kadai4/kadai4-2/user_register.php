@@ -17,14 +17,14 @@ Smarty_Autoloader::register();
     $address = '';
   }
 
-  if( preg_match( '/iPhone/', $_SERVER['HTTP_USER_AGENT']) ) {
-    // iPhone用の処理
-    echo 'iphoneからきたよ';
-  } else {
-    // その他の端末の処理
-    echo 'PCからきたよ';
-    var_dump($_SERVER['HTTP_USER_AGENT']);
-  }
+// if( preg_match( '/iPhone/', $_SERVER['HTTP_USER_AGENT']) ) {
+//   // iPhone用の処理
+//   echo 'iphoneからきたよ';
+// } else {
+//   // その他の端末の処理
+//   echo 'PCからきたよ';
+//   var_dump($_SERVER['HTTP_USER_AGENT']);
+// }
   
   #$sql = "DROP TABLE tmp_register" ;
   #$dbh->query($sql);
