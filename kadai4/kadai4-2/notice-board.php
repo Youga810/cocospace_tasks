@@ -12,16 +12,17 @@ if (isset($_POST['login_id'])){
 }
 //echo !isset($_COOKIE['PHPSESSID']);
  // #cユーザ情報の取得(無ければログイン画面へ)
-if(!isset($_SESSION)){
-   header('Location: ./login_form.php');
+if(!isset($_SESSION['myId'])){
+
     //更新したら再びセッションIDが発行されるため
       $_SESSION = array();
-      setcookie("PHPSESSID", '', time() - 1800);
+      setcookie("PHPSESSID", '', time() - 1800,'/');
       session_destroy();
+      header('Location: ./login_form.php');
       exit();
  }
   #セッション時間が過ぎていた場合ログアウト処理を行う
- if(!$_SESSION['last_time'] || time() - $_SESSION['last_time'] > $SESSION_TIME){
+ elseif(!$_SESSION['last_time'] || time() - $_SESSION['last_time'] > $SESSION_TIME){
    $_SESSION['timeout'] = true;
    header('Location: ./user_logout.php');
    exit();

@@ -18,8 +18,6 @@
       </form>
     </div>
   {else}
-  {$current_time}
-  {$id}
     <h1 class="success"> Login successed. </h1>
     <div>
       <form action="./notice-board.php" method="post">
