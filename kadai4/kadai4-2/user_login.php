@@ -36,18 +36,8 @@ try{
         }
       }
   }
-}elseif(isset($_SESSION)){
-    header('Location: ./notice-board.php');
 }
 
-  if($id_flag && $password_flag){
-    ini_set('session.gc_probability', 1);
-    ini_set( 'session.gc_divisor', 1 );  
-    ini_set( 'session.gc_maxlifetime', 5); 
-    session_start();
-    $_SESSION['myId'] = $id;
-    $_SESSION['last_time'] = time();
-  }
   if($id_flag && !$password_flag){
     throw new Exception('Wrong Password');
   }
@@ -58,5 +48,6 @@ try{
   $smarty->assign('error', $e -> getMessage());
 }
   $smarty->assign('id', $id);
+  $smarty->assign('current_time', time());  
   $smarty->display('user_login.tpl');
 ?>

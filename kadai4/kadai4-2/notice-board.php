@@ -6,25 +6,27 @@ Smarty_Autoloader::register();
 $smarty = new Smarty();
 $SESSION_TIME = 1440;
 $_SESSION['timeout'] = false;
-  #cユーザ情報の取得(無ければログイン画面へ)
-  if(!isset($_SESSION['myId'])){
-    header('Location: ./login_form.php');
+if (isset($_POST['login_id'])){
+  $_SESSION['myId'] = $_POST['login_id'];
+  $_SESSION['last_time'] = $_POST['current_time'];
+}
+//echo !isset($_COOKIE['PHPSESSID']);
+ // #cユーザ情報の取得(無ければログイン画面へ)
+if(!isset($_SESSION)){
+   header('Location: ./login_form.php');
     //更新したら再びセッションIDが発行されるため
-    if(session_id()) {
       $_SESSION = array();
       setcookie("PHPSESSID", '', time() - 1800);
-    }
-    session_destroy();
-    exit();
-  }
+      session_destroy();
+      exit();
+ }
   #セッション時間が過ぎていた場合ログアウト処理を行う
-  elseif(!$_SESSION['last_time'] || time() - $_SESSION['last_time'] > $SESSION_TIME){
-    $_SESSION['timeout'] = true;
-    header('Location: ./user_logout.php');
-    exit();
+ if(!$_SESSION['last_time'] || time() - $_SESSION['last_time'] > $SESSION_TIME){
+   $_SESSION['timeout'] = true;
+   header('Location: ./user_logout.php');
+   exit();
 
-  }
-
+ }
 #最終表示時間の更新
 $_SESSION['last_time'] = time();
 

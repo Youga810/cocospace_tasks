@@ -18,10 +18,13 @@
       </form>
     </div>
   {else}
+  {$current_time}
+  {$id}
     <h1 class="success"> Login successed. </h1>
     <div>
-      <form action="./notice-board" method="post">
+      <form action="./notice-board.php" method="post">
         <input type="hidden" name="login_id" value="{$id}">
+        <input type="hidden" name="current_time" value="{$current_time}">
         <input class="to_board" type="submit" value="To Notice-Board">
       </form>
     </div>
