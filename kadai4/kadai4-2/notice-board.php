@@ -43,6 +43,7 @@ include('pdo_connect.php');
       foreach($res as $value){
         if($value['id'] == $_SESSION['myId']){
           $user_name = $value['name'];
+          $user_password = $value['password'];
         }
       }
   }
@@ -126,7 +127,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
         $sql->bindValue(':id',$new_id,PDO::PARAM_INT);
         $sql->bindValue(':name',$name,PDO::PARAM_STR);
         $sql->bindValue(':comment',$comment,PDO::PARAM_STR);
-        $sql->bindValue(':time',date('Y年m月d日 H時i分s秒'),PDO::PARAM_STR);
+        $sql->bindValue(':time',date('Y/m/d H:i:s'),PDO::PARAM_STR);
         $sql->bindValue(':password',$password,PDO::PARAM_STR);
         $sql->bindValue(':path',$destination,PDO::PARAM_STR);
         $sql->bindValue(':ext',$ext,PDO::PARAM_STR);
@@ -229,6 +230,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
   }
   $smarty->assign('session', $_SESSION);
   $smarty->assign('user_name', $user_name);
+  $smarty->assign('user_password', $user_password);
   $smarty->assign('edit_comment1', $edit_comment1);
   $smarty->assign('edit_ID', $edit_ID);
   $smarty->display('notice-board.tpl');

@@ -16,7 +16,7 @@
   {if !empty($register_name) && !empty($register_password) && !empty($register_address ) && preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/',$register_address)}
 
 
-    <h1>Confirm</h1>
+    <h1 class="confirm">Confirm</h1>
 
     <table>
       <tr><td class="header">UserName</td><td class="data">{$register_name}</td></tr>

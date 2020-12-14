@@ -1,5 +1,7 @@
 body{
   background-color: rgb(223, 221, 221);
+  margin: 0px;
+
 }
 input[type='submit'] {
   cursor : pointer;

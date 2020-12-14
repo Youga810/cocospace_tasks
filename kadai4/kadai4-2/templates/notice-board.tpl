@@ -19,12 +19,6 @@
     }
   </script>
 
-  <style>
-  img, video {
-    max-width: 100%;
-    height: auto;
-  }
-  </style>
 </head>
 <body>
 <div class="split">
@@ -34,11 +28,11 @@
         <ul class="ul-wrap">
             <li>ID：{$session['myId']}</li>
             <li>NAME：{$user_name}</li>
-          <li>
-          <form action="./user_logout" method="get">
-              <input type="submit" class="logout" value="Logout">
-          </form>
-          </li>
+            <li>
+              <form action="./user_logout" method="get">
+                  <input type="submit" class="logout" value="Logout">
+              </form>
+            </li>
         </ul>
     </div>
   </header>
@@ -47,45 +41,44 @@
     <div class="post-wrap">
       <form action="./notice-board.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="ID" value="{$edit_ID}">
-            <dt>お名前：</dt>
-            <dd><input type="text" size="30" name="name" placeholder="ここに名前を入力してください。" value="{$user_name}"></dd>
-
-            <dt>コメント：</dt>
-            <dd>
-              <textarea name="comment" cols="35" rows="10" placeholder="ここにコメントを入力してください。">{$edit_comment1}</textarea>
-            </dd>
-
-            <dt>添付ファイル：(対応拡張子：jpg,png,gif,mp4)</dt>
-            <dd><input type="file" name="upfile" accept="image/jpeg,image/png,image/gif,video/mp4"></dd>
-
-            <dt>パスワード：</dt>
-            <dd><input type="password" size="30" name="post_password" placeholder="ここにパスワードを入力してください。"></dd>
-            <input type="submit" value="投稿">
+            <input type="hidden" name="name" value="{$user_name}">
+            <input type="hidden" name="post_password" value="{$user_password}">
+            
+            <div class="comment">
+              <h1>Comment</h1>
+              <textarea name="comment" cols="35" rows="10" placeholder="Comment">{$edit_comment1}</textarea>
+            </div>
+            <div class="attachment">
+              <h1>Attachment</h1>
+              <input type="file" name="upfile" accept="image/jpeg,image/png,image/gif,video/mp4">
+            </div>
+            <input class="post" type="submit" value="POST">
       </form>
     </div>
     <div class="delete-wrap">
       <form action="./notice-board.php" method="post" onSubmit="return check()">
-
-            <dt>削除番号：</dt>
-            <dd>
-              <input type="text" size="35" name="delete" placeholder="ここに削除したい番号を入力してください。">
-            </dd>
-            <dt>パスワード：</dt>
-            <dd><input type="password" size="30" name="delete_password" placeholder="ここにパスワードを入力してください。"></dd>
-            <input type="submit" value="削除">
+            <div class="delete">
+              <h1> Delete Number </h1>
+              <input type="text" size="3" name="delete" placeholder="ID">
+            </div>
+            <div>
+              <h1>Password</h1>
+              <input type="password" size="10" name="delete_password"></dd>
+            </div>
+            <input class="delete" type="submit" value="DELETE">
       </form>
     </div>
     <div class="edit-wrap">
       <form action="./notice-board.php" method="post">
-
-            <dt>編集番号：</dt>
-            <dd>
-              <input type="text" size="35" name="edit" placeholder="ここに編集したい番号を入力してください。">
-            </dd>
-
-            <dt>パスワード：</dt>
-            <dd><input type="password" size="30" name="edit_password" placeholder="ここにパスワードを入力してください。"></dd>
-            <input type="submit" value="編集">
+            <div class="edit">
+              <h1> Edit Number </h1>
+              <input type="text" size="3" name="edit" placeholder="ID">
+            </div>
+            <div>
+              <h1>Password</h1>
+              <input type="password" size="10" name="edit_password">
+            </div>
+            <input class="edit" type="submit" value="EDIT">
       </form>
     </div>
   </div>
@@ -96,26 +89,39 @@
 
         <table border="1">
           <thead>
+            <tr class="id">
+              <th>ID</th>
+              <td>{$value['id']} </td>
+            </tr>
             <tr>
-              <td>
-                {$value['id']} 番
-                {$value['name']}さん
-                {$value['comment']}
-                {$value['time']}
-
+              <th>NAME</th>
+              <td>{$value['name']}</td>
+            </tr>            
+            <tr>
+              <th>COMMENT</th>
+              <td>{$value['comment']}</td>
+            </tr>
+            <tr>
+              <th>TIME</th>
+              <td>{$value['time']}</td>
+            </tr>
+            <tr>
+            <th>SOURCE</th>
+              <td class="src">
                 {if $value['ext'] == 'mp4'}
-                  <video controls src= "{$value['path']}"width="400" >
+                  <video controls src= "{$value['path']}" >
                 {else}
-                <img src= "{$value['path']}"width="400" >
+                <img  src= "{$value['path']}">
                 {/if}
-                <br>
               </td>
             </tr>
-          </thead>
+            </thead>
         </table>
     {/foreach}
     {else}
-      投稿がありません。
+      <div class="nothing">
+        There are no posts.
+      </div>
     {/if}
   </div>
 </div>
