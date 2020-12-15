@@ -10,10 +10,10 @@
   <!--　削除時の確認ダイアログ　-->
   <script type="text/javascript"> 
     function check(){
-      if(window.confirm('本当に削除しますか？')){
+      if(window.confirm('Do you really want to delete it?')){
         return true;
       }else{
-        window.alert('キャンセルされました'); 
+        window.alert('It has been canceled.'); 
         return false; 
       }
     }
@@ -110,8 +110,8 @@
               <td class="src">
                 {if $value['ext'] == 'mp4'}
                   <video controls src= "{$value['path']}" >
-                {else}
-                <img  src= "{$value['path']}">
+                {elseif $value['ext'] != ''}
+                  <img  src= "{$value['path']}">
                 {/if}
               </td>
             </tr>

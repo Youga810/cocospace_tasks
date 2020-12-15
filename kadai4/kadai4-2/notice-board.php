@@ -2,6 +2,8 @@
 session_start();
 require_once(realpath(__DIR__) . "/../smarty/Autoloader.php");
 Smarty_Autoloader::register();
+error_reporting(0);
+
 
 $smarty = new Smarty();
 $SESSION_TIME = 1440;
@@ -58,20 +60,18 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
 #$sql = "DROP TABLE D" ;
 #$dbh->query($sql);
   #投稿処理
-  if(!empty($_POST['name'])){
+  if(!empty($_FILES['upfile']['name']) || !empty($_POST["comment"])){
     $name = $_POST["name"];
     $comment = $_POST["comment"];
     $id = $_POST["ID"]; 
     $password = $_POST["post_password"];
 
       $upfile = $_FILES['upfile'];
-      try{
+    try{
       if($upfile['error'] == UPLOAD_ERR_FORM_SIZE || $upfile['error'] == UPLOAD_ERR_INI_SIZE){
-          throw new EXception('ファイルサイズが大きすぎます');
+          throw new EXception('File size is too large.');
       }
-     }catch(EXception $e){
-      echo $e -> getMessage();
-     }
+
 
       $tmp_name = $upfile['tmp_name'];
       // ファイルタイプチェック
@@ -84,10 +84,10 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
           , 'gif' => 'image/gif'
           ,'mp4' => 'video/mp4'
       ];
-      if (!in_array($mimetype, $allowed_types)) {
-        throw new Exception('許可されていないファイルタイプです。');
-    }
-     
+        if (!in_array($mimetype, $allowed_types)) {
+          throw new Exception('The file type is not allowed.');
+        }
+
       $filename = sha1_file($tmp_name);
       $ext = array_search($mimetype, $allowed_types);
       $destination = sprintf('%s/%s.%s'
@@ -96,16 +96,18 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
       , $ext
       );
       move_uploaded_file($tmp_name,$destination);
+    }catch(EXception $e){
+      //echo $e -> getMessage();
+    }
 
-
-    if(empty($password))echo "<script>alert('パスワードを入力してください。');</script>";
+    if(empty($password))echo "<script>alert('Please enter your password.');</script>";
     else{
       $res = $dbh-> query('SELECT * FROM D');
       #編集時
       if($id != -1){
         $sql = 'UPDATE D set name = :name,comment = :comment, time = :time, password = :password, path= :path, ext = :ext where id = :id';
         $stmt = $dbh->prepare($sql);
-        $params = array(':name' =>$name,':comment' =>$comment,':time' => date('Y年m月d日 H時i分s秒'),':password' => $password,'path' => $destination, 'ext' =>$ext, 'id' => $id);
+        $params = array(':name' =>$name,':comment' =>$comment,':time' => date('Y/m/d H:i:s'),':password' => $password,'path' => $destination, 'ext' =>$ext, 'id' => $id);
         $stmt ->execute($params);
         #list($num, $name1, $comment1, $time, $password1) = explode("<>", $value);
         #if($id == $num){
@@ -152,13 +154,13 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
       foreach($stmt as $row){
         $delete_password =  $row['password'];
       }
-      if($cnt == 0 || $delete_password == "")echo "<script>alert('データがありません。');</script>";
+      if($cnt == 0 || $delete_password == "")echo "<script>alert('there is no data.');</script>";
       else{
           $password = $_POST['delete_password'];
-          if(empty($password)) echo "<script>alert('パスワードを入力してください');</script>";
+          if(empty($password)) echo "<script>alert('Please enter your password.');</script>";
           else{
               if($password != $delete_password){
-                echo "<script>alert('パスワードが間違っています。');</script>";
+                echo "<script>alert('Please enter your password.');</script>";
               }
               else{
                 $sql = "DELETE FROM D where id = $delete_ID" ;
@@ -174,7 +176,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
           }
       }
     }else{
-      echo "<script>alert('数値を入力してください。');</script>";
+      echo "<script>alert('Please enter a number.');</script>";
     }
   }
   
@@ -194,10 +196,10 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
       foreach($stmt as $row){
         $edit_password =  $row['password'];
       }
-      if($cnt == 0 || $edit_password == "")echo "<script>alert('データがありません。');</script>";
+      if($cnt == 0 || $edit_password == "")echo "<script>alert('there is no data.');</script>";
       else{
         $password = $_POST['edit_password'];
-        if(empty($password)) echo "<script>alert('パスワードを入力してください');</script>";
+        if(empty($password)) echo "<script>alert('Please enter your password.');</script>";
         else{
             $sql = "SELECT * FROM D where id = $edit_ID";
             $stmt = $dbh->query($sql);
@@ -207,7 +209,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
               $edit_comment1 = $row['comment'];            
             }
             if($password != $edit_password){
-                  echo "<script>alert('パスワードが間違っています。');</script>";
+                  echo "<script>alert('your password is incorrect.');</script>";
                   $edit_name1 = "";
                   $edit_comment1 = "";
                   $edit_ID = -1;
@@ -215,7 +217,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
         }
       }
     }else{
-      echo "<script>alert('数値を入力してください。');</script>";
+      echo "<script>alert('Please enter a number.');</script>";
     }  
   }
   
