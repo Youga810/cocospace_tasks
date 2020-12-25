@@ -1,9 +1,21 @@
 <?php
 session_start();
 require_once(realpath(__DIR__) . "/../smarty/Autoloader.php");
+require_once "Cache/Lite.php";
 Smarty_Autoloader::register();
 error_reporting(0);
 
+
+//オプションの設定
+$cache_opt = array(
+  "cacheDir" => "Cache/tmp/", //キャッシュファイルの保存場所
+  "lifeTime" => 3600, //キャッシュ時間
+  'automaticSerialization'  => true,
+  "pearErrorMode" => CACHE_LITE_ERROR_DIE
+  );
+
+  $objCache = new Cache_Lite($cache_opt);
+  $change_flag = false;
 
 $smarty = new Smarty();
 $SESSION_TIME = 1440;
@@ -11,6 +23,7 @@ $_SESSION['timeout'] = false;
 if (isset($_POST['login_id'])){
   $_SESSION['myId'] = $_POST['login_id'];
   $_SESSION['last_time'] = $_POST['current_time'];
+
 }
 //echo !isset($_COOKIE['PHPSESSID']);
  // #cユーザ情報の取得(無ければログイン画面へ)
@@ -30,6 +43,9 @@ if(!isset($_SESSION['myId'])){
    exit();
 
  }
+
+ $cache_id  = $_SESSION['myId'];
+
 #最終表示時間の更新
 $_SESSION['last_time'] = time();
 
@@ -103,6 +119,7 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
     if(empty($password))echo "<script>alert('Please enter your password.');</script>";
     else{
       $res = $dbh-> query('SELECT * FROM D');
+      $change_flag = true;
       #編集時
       if($id != -1){
         $sql = 'UPDATE D set name = :name,comment = :comment, time = :time, password = :password, path= :path, ext = :ext where id = :id';
@@ -134,11 +151,12 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
         $sql->bindValue(':path',$destination,PDO::PARAM_STR);
         $sql->bindValue(':ext',$ext,PDO::PARAM_STR);
         $sql->execute();
+
       }
-     # #リロードによる二重投稿対策
-     # if($_SERVER['REQUEST_METHOD'] === 'POST'){
-     #   header('Location:http://co-19-265.99sv-coco.com/notice-board.php');
-     # }
+      #リロードによる二重投稿対策
+      if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        header('Location:http://co-19-265.99sv-coco.com/kadai4/kadai4-3/notice-board.php');
+      }
     }
   }
 
@@ -172,6 +190,8 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
                 $stmt = $dbh->query($sql);
                 $sql = "ALTER TABLE D AUTO_INCREMENT =1"; //idを1から振りなおす
                 $stmt = $dbh->query($sql);
+                
+                $change_flag = true;
               }   
           }
       }
@@ -220,16 +240,28 @@ $stmt = $dbh->query("CREATE TABLE D (id INT AUTO_INCREMENT PRIMARY KEY,name TEXT
       echo "<script>alert('Please enter a number.');</script>";
     }  
   }
-  
-  #記述処理
-  $sql = 'SELECT *FROM D';
-  $stmt = $dbh->query($sql);
-  $stmt-> execute();
-  $cnt = $stmt->rowCount();
-  if($cnt != 0){
-    $res = $dbh-> query('SELECT * FROM D');
+  if (($cache = $objCache->get($cache_id)) && !$change_flag) {
+    $res = $cache;	
+    $smarty->assign('view', $cache);
+
+
+
+  } else {
+    if($change_flag)$objCache->clean();
+    
+    #記述処理
+    $sql = 'SELECT *FROM D';
+    $stmt = $dbh->query($sql);
+    $stmt-> execute();
+    $cnt = $stmt->rowCount();
+    if($cnt != 0){
+      $stmt = $dbh-> query($sql);
+      $res = $stmt -> fetchAll();
+      $objCache->save($res,$cache_id);
+    }
     $smarty->assign('view', $res);
   }
+
   $smarty->assign('session', $_SESSION);
   $smarty->assign('user_name', $user_name);
   $smarty->assign('user_password', $user_password);
