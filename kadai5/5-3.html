@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-3</title>
+</head>
+
+<body>
+  <div>
+    現在の数字
+    <p id="num">0</p>
+  </div>
+  <input type="button" value="+" onclick="sum()">
+  <script>
+    var sum = function () {
+      var next_num = parseInt(document.getElementById('num').innerHTML) + 1;
+      document.getElementById('num').innerHTML = next_num;
+      document.getElementById('num').style.fontSize = next_num + "px";
+      console.log(document.getElementById('num').style.backgroundColor);
+    }
+  </script>
+</body>
+
+</html>

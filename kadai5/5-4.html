@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-4</title>
+</head>
+
+<body>
+  <div>
+    <input type="text" id="id_check">
+    <input type="button" value="追加" onclick="check()">
+  </div>
+  <div id="confirm"></div>
+
+  <script>
+    var check = function () {
+      var word = document.getElementById('id_check').value;
+      var confirm = document.getElementById('confirm')
+      console.log(word);
+      if (word == "") alert('入力してください');
+      else {
+        const p = document.createElement('p');
+        const text = document.createTextNode(word);
+        document.getElementById('confirm').appendChild(p).appendChild(text);
+      }
+    }
+
+
+  </script>
+
+
+</body>
+
+</html>

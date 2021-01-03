@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-5_dialpad</title>
+</head>
+<style type="text/css">
+  .wrap {
+    width: 300px;
+    height: 600px;
+    border: 3px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+  }
+
+  .header {
+    height: 100px;
+    width: 100%;
+    border-bottom: 3px solid black;
+    display: flex;
+    background-color: black;
+    color: white;
+  }
+
+  .num {
+    height: 400px;
+    width: 100%;
+    border-bottom: 3px solid black;
+  }
+
+  .num_btn {
+    width: calc(100%/3);
+    float: left;
+    height: 100px;
+    font-size: xx-large;
+  }
+
+  .tell {
+    height: 94px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  #tell_btn {
+    width: 100%;
+    height: 100%;
+    font-size: xx-large;
+    background-color: rgb(66, 211, 61);
+    color: black;
+  }
+
+  #display {
+    width: 200px;
+    padding: 15px;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: x-large;
+  }
+
+  #delete {
+    width: 100px;
+    height: 100px;
+    text-align: right;
+  }
+
+  #delete_btn {
+    background-color: black;
+    color: white;
+    width: 100%;
+    height: 100%;
+    font-size: xx-large;
+    border: none;
+    border-left: 2px solid white;
+  }
+</style>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div id="display">
+
+      </div>
+      <div id="delete">
+        <input id="delete_btn" type="button" value="×" onclick="delete_click()">
+      </div>
+
+    </div>
+    <div class="num">
+      <input class="num_btn" type="button" value="1" onclick="num_btn('1')">
+      <input class="num_btn" type="button" value="2" onclick="num_btn('2')">
+      <input class="num_btn" type="button" value="3" onclick="num_btn('3')">
+      <input class="num_btn" type="button" value="4" onclick="num_btn('4')">
+      <input class="num_btn" type="button" value="5" onclick="num_btn('5')">
+      <input class="num_btn" type="button" value="6" onclick="num_btn('6')">
+      <input class="num_btn" type="button" value="7" onclick="num_btn('7')">
+      <input class="num_btn" type="button" value="8" onclick="num_btn('8')">
+      <input class="num_btn" type="button" value="9" onclick="num_btn('9')">
+      <input class="num_btn" type="button" value="＊" onclick="num_btn('＊')">
+      <input class="num_btn" type="button" value="0" onclick="num_btn('0')">
+      <input class="num_btn" type="button" value="#" onclick="num_btn('#')">
+    </div>
+    <div class="tell">
+      <input id="tell_btn" type="button" value="📞発信" onclick="tell()">
+
+    </div>
+  </div>
+
+
+  <script>
+
+    var flag = 0;
+    window.onload = function onLoad() {
+      document.getElementById("display").innerHTML = "";
+    }
+    document.getElementById("display").innerHTML.length
+    var num_btn = function (args) {
+      if (document.getElementById("display").innerHTML.length < 11) {
+        document.getElementById("display").innerHTML += args;
+      }
+      console.log(document.getElementById("display").innerHTML.length)
+    }
+
+    var delete_click = function () {
+      var current_num = document.getElementById("display").innerHTML;
+      current_num = current_num.slice(0, -1)
+      // console.log(current_num.slice(-1))
+      document.getElementById("display").innerHTML = current_num;
+    }
+
+    var tell = function () {
+      var num_btn = document.getElementsByClassName("num_btn");
+      if (document.getElementById("display").innerHTML.length == 0) {
+        alert('正しい電話番号を入力してください。');
+        return;
+      }
+      console.log(flag);
+      if (flag == 0) {
+        document.getElementById("tell_btn").style.backgroundColor = "red";
+        document.getElementById("tell_btn").value = "☎ 終了";
+        document.getElementById("tell_btn").style.color = "white";
+
+        for (var i = 0; i < num_btn.length; i++) {
+          num_btn[i].disabled = true;
+        }
+        document.getElementById("delete_btn").style.display = "none";
+        var delete_div = document.getElementById("delete");
+        var elem = document.createElement('p');
+        elem.id = 'child';
+        elem.innerHTML = '発信中...';
+        elem.style.marginTop = '70px'
+        delete_div.appendChild(elem);
+        flag = 1
+      } else {
+        document.getElementById("tell_btn").style.backgroundColor = 'rgb(66, 211, 61)';
+        document.getElementById("tell_btn").value = "📞発信";
+        document.getElementById("tell_btn").style.color = "black";
+        for (var i = 0; i < num_btn.length; i++) {
+          num_btn[i].disabled = false;
+        }
+        document.getElementById("delete_btn").style.display = "block";
+        var delete_div = document.getElementById('delete');
+        var child_div = document.getElementById('child');
+        delete_div.removeChild(child_div);
+        flag = 0;
+      }
+    }
+  </script>
+
+</body>
+
+</html>
