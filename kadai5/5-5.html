@@ -121,13 +121,12 @@
       if (document.getElementById("display").innerHTML.length < 11) {
         document.getElementById("display").innerHTML += args;
       }
-      console.log(document.getElementById("display").innerHTML.length)
     }
 
     var delete_click = function () {
       var current_num = document.getElementById("display").innerHTML;
       current_num = current_num.slice(0, -1)
-      // console.log(current_num.slice(-1))
+
       document.getElementById("display").innerHTML = current_num;
     }
 
@@ -137,7 +136,6 @@
         alert('正しい電話番号を入力してください。');
         return;
       }
-      console.log(flag);
       if (flag == 0) {
         document.getElementById("tell_btn").style.backgroundColor = "red";
         document.getElementById("tell_btn").value = "☎ 終了";
