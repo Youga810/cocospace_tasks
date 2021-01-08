@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5-5_calculator</title>
+  <style type="text/css">
+    .wrap {
+      width: 400px;
+      height: 700px;
+      border: 3px solid black;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 100px;
+    }
+
+    #header {
+      height: 200px;
+      border-bottom: 3px solid black;
+    }
+
+    .main {
+      border-bottom: 3px solid black;
+      height: 500px;
+    }
+
+    input {
+      width: calc(100%/4);
+      float: left;
+      height: 100px;
+      font-size: xx-large;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="header">
+
+    </div>
+    <div class="main">
+      <input class="comp_delete" type="button" value="AC" onclick="ac()">
+      <input class="not_ac_btn calc" type="button" value="+/-" onclick="reverse()">
+      <input class="not_ac_btn calc" type="button" value="%" onclick="percent()">
+      <input class="not_ac_btn calc" type="button" value="÷" onclick="calc('÷')">
+      <input class="not_ac_btn num_btn" type="button" value="7" onclick="num_btn(7)">
+      <input class="not_ac_btn num_btn" type="button" value="8" onclick="num_btn(8)">
+      <input class="not_ac_btn num_btn" type="button" value="9" onclick="num_btn(9)">
+      <input class="not_ac_btn calc" type="button" value="×" onclick="calc('×')">
+      <input class="not_ac_btn num_btn" type="button" value="4" onclick="num_btn(4)">
+      <input class="not_ac_btn num_btn" type="button" value="5" onclick="num_btn(5)">
+      <input class="not_ac_btn num_btn" type="button" value="6" onclick="num_btn(6)">
+      <input class="not_ac_btn calc" type="button" value="-" onclick="calc('-')">
+      <input class="not_ac_btn num_btn" type="button" value="1" onclick="num_btn(1)">
+      <input class="not_ac_btn num_btn" type="button" value="2" onclick="num_btn(2)">
+      <input class="not_ac_btn num_btn" type="button" value="3" onclick="num_btn(3)">
+      <input class="not_ac_btn calc" type="button" value="+" onclick="calc('+')">
+      <input class="not_ac_btn num_btn" type="button" value="0" onclick="num_btn(0)">
+      <input class="not_ac_btn calc" type="button" value="." onclick="decimal()">
+      <input class="not_ac_btn calc " type="button" value="<×" onclick="delete_click()">
+      <input class="not_ac_btn calc" type="button" value="=" onclick="calc('=')">
+
+    </div>
+  </div>
+
+  <script>
+    var value = 0;
+    var total = 0;
+    var decimal_loop = 0;
+    var decimal_divide_num = 1;
+    var decimal_flag = false;
+    var reverse_flag = false;
+    var calc_flag;
+    document.getElementById('header').innerHTML = value;
+    var num_btn = function (num) {
+      var calc_btn = document.getElementsByClassName("calc");
+
+      for (var i = 0; i < calc_btn.length; i++) {
+        calc_btn[i].disabled = false;
+      }
+      value = Number(value);
+      if (decimal_flag) {
+        decimal_loop += 1;
+        decimal_divide_num = decimal_divide_num * 10;
+        console.log("decimal_loop:", decimal_loop);
+        if (reverse_flag) {
+          value = value - (num / decimal_divide_num);
+        } else {
+          value = value + (num / decimal_divide_num);
+        }
+        console.log(typeof (value));
+        value.toFixed(decimal_loop);
+        document.getElementById('header').innerHTML = value.toFixed(decimal_loop);
+
+      } else {
+
+        if (value == 0) {
+          value = num;
+          document.getElementById('header').innerHTML = value;
+
+        } else {
+          if (reverse_flag) {
+            value = value * 10 - num;
+          } else {
+            value = value * 10 + num;
+          }
+
+          document.getElementById('header').innerHTML = value;
+        }
+      }
+      console.log(value);
+    }
+
+    var ac = function () {
+      value = 0;
+      total = 0;
+      decimal_flag = false;
+      reverse_flag = false;
+      calc_flag = "";
+      decimal_divide_num = 1;
+      decimal_loop = 0;
+      var num_btn = document.getElementsByClassName("not_ac_btn");
+      for (var i = 0; i < num_btn.length; i++) {
+        num_btn[i].disabled = false;
+      }
+      document.getElementById('header').innerHTML = value;
+    }
+
+    var reverse = function () {
+      value *= -1;
+      if (reverse_flag) {
+        reverse_flag = false;
+      } else if (value != 0) {
+        reverse_flag = true;
+      }
+
+      document.getElementById('header').innerHTML = value.toFixed(decimal_loop);
+
+    }
+    var decimal = function () {
+      decimal_flag = true;
+    }
+
+    var delete_click = function () {
+      str = document.getElementById("header").innerHTML;
+      if (str.slice(0, -1) == "-") {
+        value = 0;
+        decimal_flag = false;
+        reverse_flag = false;
+        decimal_divide_num = 1;
+        decimal_loop = 0;
+      } else {
+        value = str.slice(0, - 1);
+      }
+
+      if (decimal_loop > 0) {
+        decimal_loop -= 1;
+        decimal_divide_num = decimal_divide_num / 10;
+      } else if (decimal_loop == 0) {
+        decimal_flag = false;
+      }
+      document.getElementById("header").innerHTML = value;
+    }
+
+    var percent = function () {
+      value *= 0.01;
+      document.getElementById("header").innerHTML = value;
+    }
+
+    var calc = function (val) {
+      var num_btn = document.getElementsByClassName("not_ac_btn");
+      var calc_btn = document.getElementsByClassName("calc");
+
+      if (calc_flag == "+") {
+        total += value;
+      } else if (calc_flag == "-") {
+        total -= value;
+      } else if (calc_flag == "×") {
+        total *= value;
+      } else if (calc_flag == "÷") {
+        total /= value;
+      } else if (calc_flag == "=") {
+        //存在しない
+      } else {
+        total = value;
+        console.log("例外");
+      }
+      if (total > 0) {
+        reverse_flag = false;
+      } else if (total < 0) {
+        reverse_flag = true;
+      } else {
+        reverse_flag = false;
+      }
+      /**
+       * TODO
+       * 少数回りの修正
+      */
+      decimal_divide_num = 1;
+      decimal_loop = 0;
+      decimal_flag = false;
+      // if (val != "=") {
+      calc_flag = val;
+      // } else {
+      //   calc_flag = "";
+      // }
+      //calc_flag = val != "=" ? val : "";
+      document.getElementById("header").innerHTML = total + calc_flag;
+      value = 0;
+      if (val == "=") {
+        for (var i = 0; i < num_btn.length; i++) {
+          num_btn[i].disabled = true;
+        }
+      } else {
+        for (var i = 0; i < calc_btn.length; i++) {
+          calc_btn[i].disabled = true;
+        }
+      }
+
+      console.log("total:", total);
+      console.log("value:", value);
+      console.log("val:", val);
+      console.log("calc_flag:", calc_flag);
+
+    }
+  </script>
+</body>
+
+</html>
