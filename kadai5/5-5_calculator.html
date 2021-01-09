@@ -14,10 +14,22 @@
       margin-right: auto;
       margin-top: 100px;
     }
-
-    #header {
-      height: 200px;
+.header{
+  height: 200px;
       border-bottom: 3px solid black;
+      display: flex;
+      width:100%;
+      position: relative;
+    background-color: black;
+    color: white;
+}
+    #display {
+      text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: xx-large;
+    padding: 15px;
+    width: 400px;
     }
 
     .main {
@@ -31,15 +43,27 @@
       height: 100px;
       font-size: xx-large;
     }
+    #calc_char{
+      position: absolute;
+      top:10px;
+      right: 20px;
+      font-size: xx-large;
+    color: white;
+
+    }
   </style>
 
 </head>
 
 <body>
   <div class="wrap">
-    <div id="header">
+    <div class="header">
+      <div id="display">
 
+      </div>
+      <div id="calc_char"></div>
     </div>
+
     <div class="main">
       <input class="comp_delete" type="button" value="AC" onclick="ac()">
       <input class="not_ac_btn calc" type="button" value="+/-" onclick="reverse()">
@@ -73,7 +97,7 @@
     var decimal_flag = false;
     var reverse_flag = false;
     var calc_flag;
-    document.getElementById('header').innerHTML = value;
+    document.getElementById('display').innerHTML = value;
     var num_btn = function (num) {
       var calc_btn = document.getElementsByClassName("calc");
 
@@ -92,13 +116,13 @@
         }
         console.log(typeof (value));
         value.toFixed(decimal_loop);
-        document.getElementById('header').innerHTML = value.toFixed(decimal_loop);
+        document.getElementById('display').innerHTML = value.toFixed(decimal_loop);
 
       } else {
 
         if (value == 0) {
           value = num;
-          document.getElementById('header').innerHTML = value;
+          document.getElementById('display').innerHTML = value;
 
         } else {
           if (reverse_flag) {
@@ -107,7 +131,7 @@
             value = value * 10 + num;
           }
 
-          document.getElementById('header').innerHTML = value;
+          document.getElementById('display').innerHTML = value;
         }
       }
       console.log(value);
@@ -125,7 +149,8 @@
       for (var i = 0; i < num_btn.length; i++) {
         num_btn[i].disabled = false;
       }
-      document.getElementById('header').innerHTML = value;
+      document.getElementById("calc_char").innerHTML = calc_flag ;
+      document.getElementById('display').innerHTML = value;
     }
 
     var reverse = function () {
@@ -136,7 +161,7 @@
         reverse_flag = true;
       }
 
-      document.getElementById('header').innerHTML = value.toFixed(decimal_loop);
+      document.getElementById('display').innerHTML = value.toFixed(decimal_loop);
 
     }
     var decimal = function () {
@@ -144,8 +169,8 @@
     }
 
     var delete_click = function () {
-      str = document.getElementById("header").innerHTML;
-      if (str.slice(0, -1) == "-") {
+      str = document.getElementById("display").innerHTML;
+      if (str.slice(0, -1) == "-" || str.length == 1) {
         value = 0;
         decimal_flag = false;
         reverse_flag = false;
@@ -161,12 +186,12 @@
       } else if (decimal_loop == 0) {
         decimal_flag = false;
       }
-      document.getElementById("header").innerHTML = value;
+      document.getElementById("display").innerHTML = value;
     }
 
     var percent = function () {
       value *= 0.01;
-      document.getElementById("header").innerHTML = value;
+      document.getElementById("display").innerHTML = value;
     }
 
     var calc = function (val) {
@@ -185,29 +210,16 @@
         //存在しない
       } else {
         total = value;
-        console.log("例外");
       }
-      if (total > 0) {
-        reverse_flag = false;
-      } else if (total < 0) {
-        reverse_flag = true;
-      } else {
-        reverse_flag = false;
-      }
-      /**
-       * TODO
-       * 少数回りの修正
-      */
+       reverse_flag = false;
       decimal_divide_num = 1;
       decimal_loop = 0;
       decimal_flag = false;
-      // if (val != "=") {
       calc_flag = val;
-      // } else {
-      //   calc_flag = "";
-      // }
-      //calc_flag = val != "=" ? val : "";
-      document.getElementById("header").innerHTML = total + calc_flag;
+      if(calc_flag == '=') calc_flag= "結果";
+      document.getElementById("display").innerHTML = total ;
+      document.getElementById("calc_char").innerHTML = calc_flag ;
+
       value = 0;
       if (val == "=") {
         for (var i = 0; i < num_btn.length; i++) {
