@@ -81,7 +81,7 @@ $stmt = $dbh->query("CREATE TABLE tmp_register (id TEXT,name TEXT,time TEXT, pas
            <td> <?php echo date('Y年m月d日 H時i分s秒', $value['time']);?></td>
            <td> <?php echo "$value[flag]";?></td>
            <td> <?php echo "$value[id]"; ?></td>
-           <td> <?php echo "$value[address]";?></td>
+           <!-- <td> <?php echo "$value[address]";?></td> -->
           </tr>
         
       
