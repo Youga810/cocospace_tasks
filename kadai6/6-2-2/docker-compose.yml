@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+    backend:
+      build: ./Docker/php
+      volumes:
+        - ./var/www/backend:/var/www/backend
+      working_dir: /var/www/backend
